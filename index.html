@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Attendance Management</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #f0effb;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 600px;
+        }
+
+        h2, h3 {
+            text-align: center;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 2px solid #333;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-clear {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Student Attendance Management</h2>
+
+    <!-- ADD STUDENT -->
+    <form method="POST">
+        <input type="text" name="roll_no" placeholder="Roll No" required>
+        <input type="text" name="name" placeholder="Student Name" required>
+        <input type="text" name="department" placeholder="Department" required>
+        <button type="submit" name="add_student">Add Student</button>
+    </form>
+
+    <!-- MARK ATTENDANCE -->
+    <form method="POST">
+        <select name="student_id" required>
+            <option value="">Select Student</option>
+            {% for student in students %}
+                <option value="{{ student.id }}">
+                    {{ student.roll_no }} - {{ student.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="status" required>
+            <option value="">Mark Attendance</option>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+
+        <button type="submit" name="mark_attendance">Submit Attendance</button>
+    </form>
+
+    <!-- ATTENDANCE REPORT -->
+    <h3>Attendance Report</h3>
+
+    <table>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+
+        {% for record in attendance_records %}
+        <tr>
+            <td>{{ record.roll_no }}</td>
+            <td>{{ record.name }}</td>
+            <td>{{ record.department }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- CLEAR REPORT -->
+    <form method="POST">
+        <button class="btn-clear" type="submit" name="clear_report">
+            Clear Attendance Report
+        </button>
+    </form>
+
+</div>
+</body>
+</html>
+
